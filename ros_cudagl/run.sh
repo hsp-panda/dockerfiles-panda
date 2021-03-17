@@ -3,7 +3,8 @@
 # name is already running.
 # ====================================
 
-if [ "$#" -lt 2 ]; then
+if (( "$#" < 2 || "$#" > 3 ))
+then
     echo "Illegal number of parameters. Usage: run.sh <username> <container-id> [image-name]"
     echo "Example: run.sh panda-user ros-container"
     exit 1
@@ -20,6 +21,31 @@ XSOCK="/tmp/.X11-unix"
 XAUTH="/tmp/.$CONTAINERNAME.xauth"
 USER_UID=$UID
 USER_GID=$UID
+
+
+# ====================================
+# With two arguments, the user wants an already existing container.
+# With three, a new one must be spawned
+# Create the proper container name according to whether it exists or not
+# ====================================
+
+if [ "$#" -eq 2 ]
+then
+    NEW_CONTAINER="false"
+    if [ ! "$(docker ps -a | grep $CONTAINERNAME)" ]
+    then
+        echo "Container $CONTAINERNAME does not exist. No action performed."
+        exit 1
+    fi
+else
+    NEW_CONTAINER="true"
+    if [ "$(docker ps -a | grep $CONTAINERNAME)" ]
+    then
+        TIMESTAMP=`date +"%y_%m_%d-%k_%M_%S"`
+        echo "Container $CONTAINERNAME already exists. Adding timestamp $TIMESTAMP."
+        CONTAINERNAME=$CONTAINERNAME-$TIMESTAMP
+    fi
+fi
 
 echo "Running container $CONTAINERNAME as $USERNAME..."
 
@@ -44,10 +70,8 @@ fi
 # Add --volume=<host-volume>:<mount-point> for sharing the host filesystem
 # ====================================
 
-if [ ! "$(docker ps -a | grep $CONTAINERNAME)" ]
+if [ "$NEW_CONTAINER" == 'true' ]
 then
-    TIMESTAMP=`date +"%y_%m_%d-%k_%M_%S"`
-    CONTAINERNAME=$CONTAINERNAME-$TIMESTAMP
     mkdir -p $HOME/workspace/docker-shared-workspace/$CONTAINERNAME
     docker run \
         -it \
