@@ -56,7 +56,7 @@ chmod a+x build.sh
 
 and then create a container
 ```
-chmod a+x
+chmod a+x run.sh
 ./run.sh `whoami` ros-container ros/cudagl:devel
 ```
 
