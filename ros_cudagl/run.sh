@@ -22,7 +22,6 @@ XAUTH="/tmp/.$CONTAINERNAME.xauth"
 USER_UID=$UID
 USER_GID=$UID
 
-
 # ====================================
 # With two arguments, the user wants an already existing container.
 # With three, a new one must be spawned

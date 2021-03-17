@@ -26,6 +26,8 @@ To change the base image file, change the line
 ```
 in `build.sh` to whatever suits your needs.
 
+Add or remove stuff to the `bashrc` before building the image if you need so.
+
 #### ROS
 
 By changing the base ubuntu image, you can install any ROS distribution you might need. Just change the line
@@ -55,19 +57,23 @@ chmod a+x build.sh
 and then create a container
 ```
 chmod a+x
-./run.sh `whoami` ros-container fbottarel/ros:nvidia
+./run.sh `whoami` ros-container ros/cudagl:devel
 ```
 
-Docker will spin up a container, creating a user inside it with name, group-id and user-id corresponding to the host system current user. The run script also takes care of checking whether the container already exists in a stopped state and just needs to be spun up. It also creates a Xauthority file to ensure proper autentication.
+The `run.sh` script will add a timestamp to the container name to avoid name clashes. Docker will spin up a container, creating a user inside it with name, group-id and user-id corresponding to the host system current user. The run script also takes care of checking whether the container already exists in a stopped state and just needs to be spun up. It also creates a Xauthority file to ensure proper autentication.
 
 Once the container is running, you can work on it with
+```
+./run.sh `whoami` ros-container
+```
+or
 ```
 docker exec -it -u `whoami` ros-container bash
 ```
 
-You might want to mount different volumes. To do so, change or add paths with `--volume`.
+#### Tweak the `run.sh` script
 
-Add or remove stuff to the `bashrc` before building the image if you need so.
+You might want to mount different volumes. To do so, change or add paths with `--volume`.
 
 You can start a ros master inside the container or use one somewhere in your local network. In this case, you will need to add the `--network=host` and `--privileged` flags to the `run.sh` and declare a `ROS_MASTER_URI` env variable in the shell. Without the flags, nodes running in the container will see the master but not the other way around.
 
