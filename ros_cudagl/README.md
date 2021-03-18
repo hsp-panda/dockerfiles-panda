@@ -39,7 +39,7 @@ You might want to mount different volumes. To do so, change or add paths with `-
 
 You can start a ros master inside the container or use one somewhere in your local network. In this case, you will need to add the `--network=host` and `--privileged` flags to the `run.sh` and declare a `ROS_MASTER_URI` env variable in the shell. Without the flags, nodes running in the container will see the master but not the other way around.
 
-#### nVidia hardware support
+### nVidia hardware support
 
 If you don't have a nVidia card, you don't need most of the stuff in this image. Build the image starting from something lightweight like `ubuntu:bionic` or `ubuntu:xenial` and keep the Intel hardware acceleration.
 
@@ -57,7 +57,7 @@ in `build.sh` to whatever suits your needs.
 
 Add or remove stuff to the `bashrc` before building the image if you need so.
 
-#### ROS
+### ROS
 
 By changing the base ubuntu image, you can install any ROS distribution you might need. Just change the line
 ```
