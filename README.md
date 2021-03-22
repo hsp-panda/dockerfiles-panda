@@ -34,14 +34,14 @@ Docker runs on top of every recent Linux distro I've tried (Ubuntu and Ubuntu-ba
 In case you are using Ubuntu 16.04, 18.04, 20.04, follow along [the official tutorial](https://docs.docker.com/engine/install/ubuntu/). For a quick reference, the main steps are:
 
 1. Remove old versions of Docker, that used to have different names. Just in case:
-```
+```console
  $ sudo apt-get remove docker docker-engine docker.io containerd runc
 ```
 1. Set up the repository for installation as a package
-```
+```console
 $ sudo apt-get update
 ```
-```
+```console
 $ sudo apt-get install \
        apt-transport-https \
        ca-certificates \
@@ -49,33 +49,33 @@ $ sudo apt-get install \
        gnupg \
        lsb-release
 ```
-```
+```console
 $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 ```
-```
+```console
 $ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 1. View the available Docker Engine versions
-```
+```console
 $ sudo apt-get update
 $ apt-cache madison docker-ce
 ```
 1. Install the latest version of Docker Engine
-```
+```console
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 or install a specific version
-```
+```console
 sudo apt-get install docker-ce=<VERSION_STRING> docker-ce-cli=<VERSION_STRING> containerd.io
 ```
 1. Go through some of the [post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/) if you fancy some of these. The only mandatory step is to assign your local user to the docker sudoer group:
-```
+```console
 $ sudo groupadd docker
 $ sudo usermod -aG docker $USER
 $ newgrp docker
 ```
 1. Verify you can run `docker` without `sudo`
-```
+```console
 $ docker run --rm hello-world
 ```
 
@@ -88,19 +88,19 @@ Thanks to the `nvidia-docker` project, you can make your nVidia GPU available to
 ![docker-container-toolkit](https://cloud.githubusercontent.com/assets/3028125/12213714/5b208976-b632-11e5-8406-38d379ec46aa.png)
 
 Make sure that you have an nVidia driver installed (435+). Configure the repo using the instructions at [this link](https://nvidia.github.io/nvidia-container-runtime/). On Ubuntu, you can then install `nvidia-container-runtime` using
-```
+```console
 $ sudo apt-get install nvidia-container-runtime
 ```
 
 Verify the installation:
 
-```
-$ sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+```console
+sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
 ```
 
 The output should look just like running `nvidia-smi` on your host system!
 
-```
+```console
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 440.64       Driver Version: 440.64       CUDA Version: 10.2     |
 |-------------------------------+----------------------+----------------------+
@@ -127,6 +127,6 @@ The GPU-equipped workstation on the Panda setup is already set up with a Docker 
 
 ## Bonus content
 
-If you have gotten this far, congratulations! Have yourself a cookie. Eat it as messy as possible!
+If you have gotten this far, congratulations! Have yourself a cookie. And mess it up.
 
 ![cookie](https://media4.giphy.com/media/HGe4zsOVo7Jvy/200.gif)
