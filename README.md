@@ -5,6 +5,7 @@ Dockerfiles and related scripts for the Panda setup
 - [Terminology](#terminology)
 - [Set up Docker](#set-up-docker)
 - [Set up nvidia-container-runtime](#set-up-nvidia-container-runtime)
+- [Set up Singularity](#set-up-singularity)
 - [How to use dockerfiles on the Panda workstation](#how-to-use-dockerfiles-on-the-panda-workstation)
 - [Bonus content](#bonus-content)
 
@@ -124,11 +125,20 @@ The output should look just like running `nvidia-smi` on your host system!
 +-----------------------------------------------------------------------------+
 ```
 
+## Set up Singularity
+
+Working with Docker might be overwhelming for newbies. We understand. The workstation has also been equipped with an installation of [Singularity](https://github.com/hpcng/singularity), which is similar to Docker in functionality but with way less hassle. 
+
+If you wish to install it yourself, it has to be compiled from source. The installation process is relatively easy, and instructions are provided [in the official project page](https://github.com/hpcng/singularity/blob/master/INSTALL.md). On the Panda workstation, Go has been installed under `/opt/go` and Singularity under `/opt/singularity`, and their functionality are of course available to the non-root user.
+
+
 ## How to use dockerfiles on the Panda workstation
 
 The GPU-equipped workstation on the Panda setup is already set up with a Docker and `nvidia-container-runtime` installation. Since you'll be only able to log in as user without administrative privileges, pretty much your only choice is to use a containerized workspace. This repository contains examples of how you can do this, that you can fork and modify as you please. For instance:
 
 - [ros_cudagl](https://github.com/hsp-panda/dockerfiles/tree/main/ros_cudagl) - full ROS installation with built in CUDA and OpenGL sharing already enabled. Pretty much your bread and butter for building your ROS-based experiment
+
+**Important**: please create a directory with your own name or handle under `/home/panda-user/users` and work there. Do not create directories all over the place, because there is no guarantee that anything outside of `/home/panda-user/users` will not be deleted. 
 
 ## Bonus content
 
