@@ -129,8 +129,64 @@ The output should look just like running `nvidia-smi` on your host system!
 
 Working with Docker might be overwhelming for newbies. We understand. The workstation has also been equipped with an installation of [Singularity](https://github.com/hpcng/singularity), which is similar to Docker in functionality but with way less hassle. 
 
-If you wish to install it yourself, it has to be compiled from source. The installation process is relatively easy, and instructions are provided [in the official project page](https://github.com/hpcng/singularity/blob/master/INSTALL.md). On the Panda workstation, Go has been installed under `/opt/go` and Singularity under `/opt/singularity`, and their functionality are of course available to the non-root user.
+If you wish to install it yourself, it has to be compiled from source. The installation process is relatively easy, and instructions are provided [in the official project page](https://github.com/hpcng/singularity/blob/master/INSTALL.md). 
 
+On Ubuntu: 
+
+1. Set up system dependencies
+```
+$ sudo apt-get update && \
+  sudo apt-get install -y build-essential \
+  libseccomp-dev pkg-config squashfs-tools cryptsetup
+```
+1. Install Golang. On Ubuntu, you can simply install it from `apt`
+```
+$ sudo apt-get install golang-go
+```
+1. Decide where you want your Go environment to reside and set up your environment accordingly. For instance, we might want to install both Go and Singularity in the `/opt/` directory. This requires admin privileges, so you'll have to `sudo` some of the commands
+```
+$ echo 'export GOPATH=/opt/go' >> ~/.bashrc
+$ echo 'export PATH=${PATH}:${GOPATH}/bin' >> ~/.bashrc
+$ source ~/.bashrc
+$ sudo mkdir -p ${GOPATH}/bin
+```
+1. (Optional) Install `golangci-lint`
+```
+$ sudo curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.21.0
+```
+1. Clone the Singularity source code and check out a stable release tag
+```
+$ sudo mkdir -p ${GOPATH}/src/github.com/sylabs && \
+    cd ${GOPATH}/src/github.com/sylabs && \
+    sudo git clone https://github.com/sylabs/singularity.git && \
+    cd singularity
+$ git checkout 3.7.1
+```
+1. Configure build and install directory for Singularity. As for Go, we are using the `/opt/` directory but you can choose whatever works for you
+```
+$ echo 'export SINGULARITY_PATH=/opt/singularity' >> ~/.bashrc
+$ source ~/.bashrc
+$ cd ${GOPATH}/src/github.com/sylabs/singularity
+$ ./mconfig -b ./buildtree -p ${SINGULARITY_PATH}
+```
+1. Build Singularity. Depending on your CPU, this might take a while, so go get yourself a drink.
+```
+$ cd ${GOPATH}/src/github.com/sylabs/singularity/.buildtree
+$ make -j8
+```
+1. Install Singularity and set up your environment.
+```
+$ sudo make install
+$ echo 'export PATH=${PATH}:${SINGULARITY_PATH}/bin' >> ~/.bashrc
+$ source ~/.bashrc
+```
+1. Test the installation!
+```
+$ singularity version
+3.7.1
+```
+
+On the Panda workstation, Go has been installed under `/opt/go` and Singularity under `/opt/singularity`, and their functionality are of course available to the non-root user.
 
 ## How to use dockerfiles on the Panda workstation
 
