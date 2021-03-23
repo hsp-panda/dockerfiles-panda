@@ -160,7 +160,7 @@ $ sudo mkdir -p ${GOPATH}/src/github.com/sylabs && \
     cd ${GOPATH}/src/github.com/sylabs && \
     sudo git clone https://github.com/sylabs/singularity.git && \
     cd singularity
-$ git checkout 3.7.1
+$ git checkout v3.7.1
 ```
 1. Configure build and install directory for Singularity. As for Go, we are using the `/opt/` directory but you can choose whatever works for you
 ```
@@ -171,7 +171,7 @@ $ ./mconfig -b ./buildtree -p ${SINGULARITY_PATH}
 ```
 1. Build Singularity. Depending on your CPU, this might take a while, so go get yourself a drink.
 ```
-$ cd ${GOPATH}/src/github.com/sylabs/singularity/.buildtree
+$ cd ${GOPATH}/src/github.com/sylabs/singularity/buildtree
 $ make -j8
 ```
 1. Install Singularity and set up your environment.
