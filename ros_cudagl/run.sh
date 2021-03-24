@@ -86,6 +86,8 @@ then
         --device /dev/dri \
         --gpus=all \
         --volume=$HOME/workspace/docker-shared-workspace/$CONTAINERNAME:/home/$USERNAME/workspace \
+        --network=host \
+        --privileged \
         $IMAGENAME \
         bash
 else
