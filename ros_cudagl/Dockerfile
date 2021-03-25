@@ -74,6 +74,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     python-rosdep \
     python-rosinstall \
     python-vcstools \
+    ros-${ros_distro}-jsk-tools \
     && rm -rf /var/lib/apt/lists/*
 
 RUN rosdep init && \
