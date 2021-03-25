@@ -33,6 +33,7 @@ $ ./run.sh 'iiticublap172'
 
 <details>
   <summary>Click to see full output</summary>
+
 ```
 $ ./run.sh 'iiticublap172'
   set ROS_IP and ROS_HOSTNAME to 192.168.100.17
