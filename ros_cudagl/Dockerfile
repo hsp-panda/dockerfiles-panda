@@ -74,6 +74,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     python-rosdep \
     python-rosinstall \
     python-vcstools \
+    python-catkin-tools \
     ros-${ros_distro}-jsk-tools \
     && rm -rf /var/lib/apt/lists/*
 
