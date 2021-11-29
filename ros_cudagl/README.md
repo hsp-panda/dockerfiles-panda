@@ -25,7 +25,7 @@ This docker image includes:
 
 ### Prerequisites
 
-Docker + nvidia-container-runtime (WIP)
+Docker + nvidia-container-runtime. Check out the [main README](https://github.com/hsp-panda/dockerfiles-panda/blob/main/README.md) in case you need to setup these prerequisites.
 
 ### Tweaks
 
