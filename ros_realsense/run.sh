@@ -34,5 +34,5 @@ else
              --volume=/dev:/dev \
              -it ros/realsense:melodic \
              /bin/bash \
-             -i -c 'rossetmaster '"${TARGET_MASTER_URI}"'; roslaunch realsense2_camera rs_rgbd.launch enable_pointcloud:=true align_depth:=false depth_registered_processing:=true align_depth:=true'
+             -i -c 'rossetmaster '"${TARGET_MASTER_URI}"'; roslaunch realsense2_camera rs_rgbd.launch enable_pointcloud:=true align_depth:=false depth_registered_processing:=true align_depth:=true filters:=hole_filling'
 fi
