@@ -5,8 +5,8 @@ FROM ros:${ros_distro}
 LABEL maintainer="fabrizio.bottarel@iit.it"
 
 ENV ROS_DISTRO melodic
-ENV LIBREALSENSE_TAG v2.43.0
-ENV REALSENSEROS_TAG 2.2.23
+ENV LIBREALSENSE_TAG v2.50.0
+ENV REALSENSEROS_TAG development
 
 # Set up wget
 
@@ -52,10 +52,10 @@ RUN rosdep update
 # Create a catkin ws, clone and compile
 
 RUN mkdir -p /catkin_ws/src && cd /catkin_ws/src && \
-  git clone --depth 1 https://github.com/IntelRealSense/realsense-ros.git && \
-  git clone --depth 1 https://github.com/pal-robotics/ddynamic_reconfigure
+  git clone https://github.com/IntelRealSense/realsense-ros.git && \
+  git clone https://github.com/pal-robotics/ddynamic_reconfigure
 RUN cd /catkin_ws/src/realsense-ros && git checkout ${REALSENSEROS_TAG}
-RUN cd catkin_ws;
+RUN cd catkin_ws
 RUN mv /bin/sh /bin/sh_tmp && ln -s /bin/bash /bin/sh
 RUN source /opt/ros/${ROS_DISTRO}/setup.bash; cd catkin_ws; catkin build -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release
 
