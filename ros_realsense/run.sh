@@ -10,6 +10,10 @@ then
     exit 1
 fi
 
+RESOLUTION_HEIGHT=480
+RESOLUTION_WIDTH=640
+FPS=15
+
 if [ "$#" -lt 1 ]
 then
   # ====================================
@@ -22,7 +26,17 @@ then
              -it \
              ros/realsense:melodic \
              /bin/bash \
-             -i -c 'roslaunch realsense2_camera rs_rgbd.launch enable_pointcloud:=true align_depth:=false depth_registered_processing:=true align_depth:=true'
+             -i -c 'roslaunch realsense2_camera rs_rgbd.launch\
+                   enable_pointcloud:=true align_depth:=false\
+                   depth_registered_processing:=true\
+                   align_depth:=true\
+                   filters:=hole_filling\
+                   depth_width:='"${RESOLUTION_WIDTH}"'\
+                   depth_height:='"${RESOLUTION_HEIGHT}"'\
+                   depth_fps:='"${FPS}"'\
+                   color_width:='"${RESOLUTION_WIDTH}"'\
+                   color_height:='"${RESOLUTION_HEIGHT}"'\
+                   color_fps:='"${FPS}"''
 else
   # ====================================
   # Run command with a different ROS_MASTER_URI
@@ -34,5 +48,15 @@ else
              --volume=/dev:/dev \
              -it ros/realsense:melodic \
              /bin/bash \
-             -i -c 'rossetmaster '"${TARGET_MASTER_URI}"'; roslaunch realsense2_camera rs_rgbd.launch enable_pointcloud:=true align_depth:=false depth_registered_processing:=true align_depth:=true filters:=hole_filling'
+             -i -c 'rossetmaster '"${TARGET_MASTER_URI}"'; roslaunch realsense2_camera rs_rgbd.launch\
+                                                           enable_pointcloud:=true align_depth:=false\
+                                                           depth_registered_processing:=true\
+                                                           align_depth:=true\
+                                                           filters:=hole_filling\
+                                                           depth_width:='"${RESOLUTION_WIDTH}"'\
+                                                           depth_height:='"${RESOLUTION_HEIGHT}"'\
+                                                           depth_fps:='"${FPS}"'\
+                                                           color_width:='"${RESOLUTION_WIDTH}"'\
+                                                           color_height:='"${RESOLUTION_HEIGHT}"'\
+                                                           color_fps:='"${FPS}"''
 fi
