@@ -107,6 +107,44 @@ RUN mkdir -p /catkin_ws/src && \
 RUN echo "source /catkin_ws/devel/setup.bash" >> /root/.bashrc
 
 # ======================================
+# Install RealSense ROS packages
+# ======================================
+
+ENV LIBREALSENSE_TAG v2.50.0
+ENV REALSENSEROS_TAG development
+
+RUN apt -q -qq update && \
+  apt install -y  git libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev && \
+  git clone https://github.com/IntelRealSense/librealsense.git && \
+  cd librealsense && git checkout ${LIBREALSENSE_TAG} && \
+  mkdir build && cd build && \
+  cmake .. -DBUILD_EXAMPLES=false -DBUILD_GRAPHICAL_EXAMPLES=false -DBUILD_WITH_OPENMP=false -DFORCE_RSUSB_BACKEND=true && \
+  make -j8 && make install
+
+RUN mkdir -p /etc/udev/rules.d && cp librealsense/config/99-realsense-libusb.rules /etc/udev/rules.d/
+
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+    ros-${ROS_DISTRO}-rgbd-launch \
+    ros-${ROS_DISTRO}-image-transport-plugins \
+    ros-${ROS_DISTRO}-image-transport && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /catkin_ws/src
+
+RUN git clone https://github.com/IntelRealSense/realsense-ros.git && \
+    git clone https://github.com/pal-robotics/ddynamic_reconfigure
+RUN cd realsense-ros && git checkout ${REALSENSEROS_TAG}
+RUN catkin build -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release
+
+# ======================================
+# Cleanup
+# ======================================
+
+RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /librealsense
+
+# ======================================
 # Setup an additional entrypoint script
 # ======================================
 
