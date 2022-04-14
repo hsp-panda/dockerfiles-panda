@@ -138,11 +138,6 @@ RUN apt-get update && \
 # ======================================
 
 WORKDIR /catkin_ws/src
-# RUN apt-get update && \
-#     apt-get install --no-install-recommends -y \
-#     ros-${ROS_DISTRO}-libfranka \
-#     ros-${ROS_DISTRO}-pyquaternion && \
-#     rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/hsp-panda/franka_ros.git && \
     git clone https://github.com/hsp-panda/panda_moveit_config.git
