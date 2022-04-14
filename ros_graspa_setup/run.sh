@@ -11,8 +11,11 @@ docker run \
   --rm \
   -it \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v /dev:/dev \
   -e DISPLAY=$DISPLAY \
   -e QT_X11_NO_MITSHM=1 \
+  --network=host \
+  --privileged \
   hsp-panda/ros_graspa_setup:melodic
 
 xhost -local:root
