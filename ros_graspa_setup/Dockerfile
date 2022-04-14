@@ -101,7 +101,7 @@ ENV QT_X11_NO_MITSHM 1
 
 RUN mkdir -p /catkin_ws/src && \
     cd /catkin_ws && \
-    catkin config --extend /opt/ros/$ROS_DISTRO && \
+    catkin config --extend /opt/ros/$ROS_DISTRO -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release && \
     catkin build
 
 RUN echo "source /catkin_ws/devel/setup.bash" >> /root/.bashrc
@@ -123,19 +123,75 @@ RUN apt -q -qq update && \
 
 RUN mkdir -p /etc/udev/rules.d && cp librealsense/config/99-realsense-libusb.rules /etc/udev/rules.d/
 
-RUN apt-get update && \
-    apt-get install --no-install-recommends -y \
-    ros-${ROS_DISTRO}-rgbd-launch \
-    ros-${ROS_DISTRO}-image-transport-plugins \
-    ros-${ROS_DISTRO}-image-transport && \
-    rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && \
+#     apt-get install --no-install-recommends -y \
+#     ros-${ROS_DISTRO}-rgbd-launch \
+#     ros-${ROS_DISTRO}-image-transport-plugins \
+#     ros-${ROS_DISTRO}-image-transport && \
+#     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /catkin_ws/src
-
 RUN git clone https://github.com/IntelRealSense/realsense-ros.git && \
-    git clone https://github.com/pal-robotics/ddynamic_reconfigure
+    git clone https://github.com/pal-robotics/ddynamic_reconfigure.git
 RUN cd realsense-ros && git checkout ${REALSENSEROS_TAG}
-RUN catkin build -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release
+RUN apt-get update && \
+    rosdep install --from-paths . --ignore-src -r -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    catkin build
+
+# ======================================
+# Clone and build robot-specific stuff
+# ======================================
+
+WORKDIR /catkin_ws/src
+# RUN apt-get update && \
+#     apt-get install --no-install-recommends -y \
+#     ros-${ROS_DISTRO}-libfranka \
+#     ros-${ROS_DISTRO}-pyquaternion && \
+#     rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/hsp-panda/franka_ros.git && \
+    git clone https://github.com/hsp-panda/panda_moveit_config.git
+RUN apt-get update && \
+    rosdep install --from-paths . --ignore-src -r -y && \
+    rm -rf /var/lib/apt/lists/*
+RUN catkin build
+
+# ======================================
+# Clone and build panda_grasp_server
+# ======================================
+
+WORKDIR /catkin_ws/src
+RUN git clone https://github.com/hsp-panda/panda_ros_common.git && \
+    git clone https://github.com/hsp-panda/panda_grasp_server.git
+RUN apt-get update && \
+    rosdep install --from-paths . --ignore-src -r -y && \
+    rm -rf /var/lib/apt/lists/*
+RUN catkin build
+
+# ======================================
+# Clone and build aruco_board_detect
+# ======================================
+
+WORKDIR /catkin_ws/src
+RUN git clone https://github.com/hsp-panda/aruco_board_detect.git
+RUN apt-get update && \
+    apt-get install libopencv-dev libopencv-contrib-dev && \
+    rosdep install --from-paths . --ignore-src -r -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    catkin build
+
+# ======================================
+# Clone and build tabletop_segment
+# ======================================
+
+WORKDIR /catkin_ws/src
+RUN git clone https://github.com/fbottarel/utility-ros-nodes.git /utility-ros-nodes && \
+    ln -s /utility-ros-nodes/src/tabletop_segment tabletop_segment
+RUN apt-get update && \
+    rosdep install --from-paths . --ignore-src -r -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    catkin build
 
 # ======================================
 # Cleanup
