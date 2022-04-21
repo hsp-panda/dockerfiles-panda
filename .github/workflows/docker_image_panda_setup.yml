@@ -1,0 +1,29 @@
+name: Publish ros_panda_setup docker image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ros_panda_setup/ros_panda_setup/**
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: hsp-panda/ros_panda_setup
+jobs:
+  build-push-image:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@main
+        with:
+          name: ${{ env.IMAGE_NAME}}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          workdir: ros_panda_setup/ros_panda_setup
+          registry: ${{ env.REGISTRY}}
