@@ -197,4 +197,4 @@ RUN rm -rf /librealsense
 COPY entrypoint.sh /usr/sbin/entrypoint.sh
 RUN chmod 777 /usr/sbin/entrypoint.sh
 ENTRYPOINT ["/usr/sbin/entrypoint.sh"]
-CMD ["roscore"]
+CMD ["bash"]
