@@ -16,7 +16,7 @@ fi
 
 USERNAME=${1:-"panda-user"}
 CONTAINERNAME=${2:-"ros-container"}
-IMAGENAME=${3:-"panda/ros:nvidia"}
+IMAGENAME=${3:-"ghcr.io/hsp-panda/ros_cudagl:latest"}
 XSOCK="/tmp/.X11-unix"
 XAUTH="/tmp/.$CONTAINERNAME.xauth"
 USER_UID=$UID

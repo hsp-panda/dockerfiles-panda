@@ -8,4 +8,4 @@ docker build \
     --build-arg ros_distro=melodic \
     --rm \
     --pull \
-    -t ros/cudagl:devel .
+    -t hsp-panda/ros_cudagl:latest .
