@@ -18,7 +18,7 @@ docker run \
   -e QT_X11_NO_MITSHM=1 \
   --network=host \
   --privileged \
-  hsp-panda/ros_panda_setup:melodic \
+  ghcr.io/hsp-panda/ros_panda_setup:latest \
   'roslaunch panda_grasp_server grasp_server.launch \
                                 robot_ip:='"${ROBOT_IP}"' \
                                 table_height:='"${TABLE_HEIGHT}"''
