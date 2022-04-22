@@ -7,4 +7,4 @@ docker build \
     --build-arg ros_distro=melodic \
     --rm \
     --pull \
-    -t ros/realsense:melodic .
+    -t hsp-panda/ros_realsense:latest .
