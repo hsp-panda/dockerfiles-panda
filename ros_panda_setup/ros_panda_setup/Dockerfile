@@ -152,7 +152,8 @@ RUN catkin build
 
 WORKDIR /catkin_ws/src
 RUN git clone https://github.com/hsp-panda/panda_ros_common.git && \
-    git clone https://github.com/hsp-panda/panda_grasp_server.git
+    git clone https://github.com/hsp-panda/panda_grasp_server.git && \
+    cd panda_grasp_server && git checkout panda_graspa
 RUN apt-get update && \
     rosdep install --from-paths . --ignore-src -r -y && \
     rm -rf /var/lib/apt/lists/*
