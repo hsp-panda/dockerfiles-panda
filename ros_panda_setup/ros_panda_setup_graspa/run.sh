@@ -12,6 +12,7 @@ xhost +local:root
 # --gpus all: Expose all GPUs to the container.
 docker run \
   -it \
+  --rm \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v /dev:/dev \
   -e DISPLAY=$DISPLAY \
