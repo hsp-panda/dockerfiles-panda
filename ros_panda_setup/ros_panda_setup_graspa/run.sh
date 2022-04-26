@@ -3,8 +3,8 @@
 # Expose the X server on the host.
 # This only works if the user is root though!
 
-ROBOT_IP = 172.16.0.2
-TABLE_HEIGHT = 0.0
+ROBOT_IP=172.16.0.2
+TABLE_HEIGHT=0.0
 
 xhost +local:root
 # --rm: Make the container ephemeral (delete on exit).
@@ -19,7 +19,7 @@ docker run \
   --network=host \
   --privileged \
   ghcr.io/hsp-panda/ros_panda_setup_graspa:latest \
-  'roslaunch panda_grasp_server GRASPA_pipeline.launch \
+  /bin/bash -i -c 'roslaunch panda_grasp_server GRASPA_pipeline.launch \
                                 robot_ip:='"${ROBOT_IP}"' \
                                 table_height:='"${TABLE_HEIGHT}"''
 
