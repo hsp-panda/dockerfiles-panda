@@ -4,7 +4,7 @@
 # This only works if the user is root though!
 
 ROBOT_IP=172.16.0.2
-GRASP_SERVER_CONFIG=grasp_server_config_gpd.yaml
+GRASP_SERVER_CONFIG=grasp_server_config.yaml
 # Set to use custom table height, otherwise default for config will be used
 TABLE_HEIGHT=""
 
