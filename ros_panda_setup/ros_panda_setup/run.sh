@@ -4,7 +4,9 @@
 # This only works if the user is root though!
 
 ROBOT_IP=172.16.0.2
-TABLE_HEIGHT=0.0
+GRASP_SERVER_CONFIG=grasp_server_config_gpd.yaml
+# Set to use custom table height, otherwise default for config will be used
+TABLE_HEIGHT=""
 
 xhost +local:root
 # --rm: Make the container ephemeral (delete on exit).
@@ -22,6 +24,7 @@ docker run \
   ghcr.io/hsp-panda/ros_panda_setup:latest \
   /bin/bash -i -c 'roslaunch panda_grasp_server grasp_server.launch \
                                 robot_ip:='"${ROBOT_IP}"' \
-                                table_height:='"${TABLE_HEIGHT}"''
+                                table_height:='"${TABLE_HEIGHT}"' \
+                                grasp_server_config:='"${GRASP_SERVER_CONFIG}"''
 
 xhost -local:root
