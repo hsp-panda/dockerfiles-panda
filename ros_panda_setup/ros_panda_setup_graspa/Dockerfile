@@ -137,19 +137,31 @@ RUN apt-get update && \
 # Clone and build robot-specific stuff
 # ======================================
 
+WORKDIR /
+
 # A specific version of libfranka might be necessary depending on robot firmware version
-ENV LIBFRANKA_TAG 0.8.0-1bionic.20201017.031455
+ENV LIBFRANKA_TAG 0.8.0
+
+RUN apt-get update && \
+    apt-get install -y \
+    libpoco-dev libeigen3-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN git clone --recursive https://github.com/frankaemika/libfranka && \
+    cd libfranka && \ 
+    git checkout ${LIBFRANKA_TAG} && git submodule update && \
+    mkdir build && cd build && \
+    cmake -DCMAKE_BUILD_TYPE=Release .. && \
+    make install -j4
+
+RUN rm -rf libfranka
 
 WORKDIR /catkin_ws/src
-
-RUN apt-get update && \ 
-    apt-get install -y ros-${ros_distro}-libfranka=${LIBFRANKA_TAG} && \
-    rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/hsp-panda/franka_ros.git && \
     git clone https://github.com/hsp-panda/panda_moveit_config.git
 RUN apt-get update && \
-    rosdep install --from-paths . --ignore-src -r -y && \
+    rosdep install --from-paths . --ignore-src -r -y --skip-keys libfranka && \
     rm -rf /var/lib/apt/lists/*
 RUN catkin build
 
