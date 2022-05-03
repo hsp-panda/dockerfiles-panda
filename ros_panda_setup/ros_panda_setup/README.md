@@ -6,7 +6,7 @@ This dockerfile is an attempt at packaging whatever necessary to use a Franka Em
 
 <center>
 
-![setup picture](https://i0.wp.com/dronebotworkshop.com/wp-content/uploads/2016/01/robot2-e1504969973917.png?resize=346%2C346)
+![setup picture](https://user-images.githubusercontent.com/33027628/166489984-4077b89e-5bb4-4a67-9783-3221fa3df5dd.png)
 
 </center>
 
@@ -15,7 +15,7 @@ We assume a setup equipped with
 - a Franka Emika robot arm (firmware version >= 4.0)
 - a Franka Hand gripper
 - one or more Intel Realsense cameras (mounted on the hand and on the setup)
-- Franka Hand mount for the Intel Realsense camera (PROVIDE LINK)
+- Franka Hand mount for the Intel Realsense camera ([Franka camera mount](https://download.franka.de/panda_camera_mount.zip))
 - a workstation where Docker 19.03+ and a Real-Time kernel are installed[1].
 
 
