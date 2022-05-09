@@ -183,7 +183,8 @@ RUN catkin build
 # ======================================
 
 WORKDIR /catkin_ws/src
-RUN git clone https://github.com/hsp-panda/aruco_board_detect.git
+RUN git clone https://github.com/hsp-panda/aruco_board_detect.git && \
+    cd aruco_board_detect && git checkout panda_graspa
 RUN apt-get update && \
     apt-get install libopencv-dev libopencv-contrib-dev && \
     rosdep install --from-paths . --ignore-src -r -y && \
