@@ -110,8 +110,8 @@ RUN echo "source /catkin_ws/devel/setup.bash" >> /root/.bashrc
 # Install RealSense ROS packages
 # ======================================
 
-ENV LIBREALSENSE_TAG v2.50.0
-ENV REALSENSEROS_TAG development
+ENV LIBREALSENSE_TAG v2.45.0
+ENV REALSENSEROS_TAG 2.3.0
 
 RUN apt -q -qq update && \
   apt install -y libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev && \
