@@ -129,7 +129,7 @@ RUN git clone https://github.com/IntelRealSense/realsense-ros.git && \
 RUN cd realsense-ros && git checkout ${REALSENSEROS_TAG}
 RUN apt-get update && \
     apt-get install ros-melodic-rgbd-launch && \
-    rosdep install --from-paths . --ignore-src -r -y && \
+    rosdep install --from-paths . --ignore-src -r -y --skip-keys librealsense2 && \
     rm -rf /var/lib/apt/lists/* && \
     catkin build
 
