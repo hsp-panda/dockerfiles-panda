@@ -1,0 +1,29 @@
+name: Publish cudagl images with fixed gpg
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - nvidia/**
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: hsp-panda/nvidia/cudagl-10.0-cudnn7-devel-ubuntu18.04
+
+jobs:
+  build-push-image:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@main
+        with:
+          name: ${{ env.IMAGE_NAME}}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          workdir: nvidia/cudagl-10.0-cudnn7-devel-ubuntu18.04
+          registry: ${{ env.REGISTRY}}
