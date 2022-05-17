@@ -9,10 +9,14 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: hsp-panda/nvidia/cudagl-10.0-cudnn7-devel-ubuntu18.04
+  IMAGE_NAME_CUDAGL_10_0_CUDNN7_DEVEL_UBUNTU1804: hsp-panda/nvidia/cudagl-10.0-cudnn7-devel-ubuntu18.04
+  IMAGE_NAME_CUDAGL_10_1_CUDNN7_DEVEL_UBUNTU1804: hsp-panda/nvidia/cudagl-10.1-cudnn7-devel-ubuntu18.04
+
+
 
 jobs:
-  build-push-image:
+
+  build-push-image-1:
     runs-on: ubuntu-latest
     steps:
 
@@ -22,8 +26,24 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@main
         with:
-          name: ${{ env.IMAGE_NAME}}
+          name: ${{ env.IMAGE_NAME_CUDAGL_10_0_CUDNN7_DEVEL_UBUNTU1804}}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           workdir: nvidia/cudagl-10.0-cudnn7-devel-ubuntu18.04
+          registry: ${{ env.REGISTRY}}
+
+  build-push-image-2:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@main
+        with:
+          name: ${{ env.IMAGE_NAME_CUDAGL_10_1_CUDNN7_DEVEL_UBUNTU1804}}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          workdir: nvidia/cudagl-10.1-cudnn7-devel-ubuntu18.04
           registry: ${{ env.REGISTRY}}
