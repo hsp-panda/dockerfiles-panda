@@ -28,4 +28,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           workdir: ros_cudagl
           registry: ${{ env.REGISTRY}}
-          buildargs: from=nvidia/cudagl:10.1-devel-ubuntu18.04, ros_distro=melodic
+          buildargs: from=ghcr.io/hsp-panda/nvidia/cudagl-10.1-cudnn7-devel-ubuntu18.04, ros_distro=melodic
