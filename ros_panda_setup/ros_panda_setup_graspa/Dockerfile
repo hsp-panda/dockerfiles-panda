@@ -148,7 +148,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN git clone --recursive https://github.com/frankaemika/libfranka && \
-    cd libfranka && \ 
+    cd libfranka && \
     git checkout ${LIBFRANKA_TAG} && git submodule update && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release .. && \
@@ -179,6 +179,20 @@ RUN apt-get update && \
 RUN catkin build
 
 # ======================================
+# Clone and build opencv and contrib
+# ======================================
+
+ENV OPENCV_TAG 3.4.9
+WORKDIR /
+RUN git clone https://github.com/opencv/opencv.git && \
+    cd opencv && git checkout ${OPENCV_TAG}
+RUN git clone https://github.com/opencv/opencv_contrib.git && \
+    cd opencv_contrib && git checkout ${OPENCV_TAG}
+RUN mkdir -p opencv/build && cd opencv/build && \
+    cmake -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules .. && \
+    make -j8 install
+
+# ======================================
 # Clone and build aruco_board_detect
 # ======================================
 
@@ -186,7 +200,6 @@ WORKDIR /catkin_ws/src
 RUN git clone https://github.com/hsp-panda/aruco_board_detect.git && \
     cd aruco_board_detect && git checkout panda_graspa
 RUN apt-get update && \
-    apt-get install libopencv-dev libopencv-contrib-dev && \
     rosdep install --from-paths . --ignore-src -r -y && \
     rm -rf /var/lib/apt/lists/* && \
     catkin build
@@ -209,6 +222,7 @@ RUN apt-get update && \
 
 RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /librealsense
+RUN rm -rf /opencv /opencv_contrib
 
 # ======================================
 # Setup an additional entrypoint script
