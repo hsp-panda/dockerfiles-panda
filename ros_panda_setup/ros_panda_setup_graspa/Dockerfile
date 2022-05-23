@@ -159,7 +159,9 @@ RUN rm -rf libfranka
 WORKDIR /catkin_ws/src
 
 RUN git clone https://github.com/hsp-panda/franka_ros.git && \
-    git clone https://github.com/hsp-panda/panda_moveit_config.git
+    cd franka_ros && git checkout panda_graspa && \
+    git clone https://github.com/hsp-panda/panda_moveit_config.git && \
+    cd panda_moveit_config && git checkout panda_graspa
 RUN apt-get update && \
     rosdep install --from-paths . --ignore-src -r -y --skip-keys libfranka && \
     rm -rf /var/lib/apt/lists/*
