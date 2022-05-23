@@ -4,7 +4,7 @@
 # This only works if the user is root though!
 
 ROBOT_IP=172.16.0.2
-GRASP_SERVER_CONFIG=grasp_server_config.yaml
+GRASP_SERVER_CONFIG=grasp_server_config_dexnet.yaml
 # Set to use custom table height, otherwise default for config will be used
 TABLE_HEIGHT=""
 
@@ -13,8 +13,6 @@ xhost +local:root
 # -it: Interactive TTY.
 # --gpus all: Expose all GPUs to the container.
 docker run \
-  -it \
-  --rm \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v /dev:/dev \
   -e DISPLAY=$DISPLAY \

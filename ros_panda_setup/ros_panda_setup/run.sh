@@ -13,7 +13,6 @@ xhost +local:root
 # -it: Interactive TTY.
 # --gpus all: Expose all GPUs to the container.
 docker run \
-  -it \
   --rm \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v /dev:/dev \
