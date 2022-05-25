@@ -129,7 +129,7 @@ RUN git clone https://github.com/IntelRealSense/realsense-ros.git && \
 RUN cd realsense-ros && git checkout ${REALSENSEROS_TAG}
 RUN apt-get update && \
     apt-get install ros-melodic-rgbd-launch && \
-    rosdep install --from-paths . --ignore-src -r -y --skip-keys librealsense2 && \
+    rosdep install --from-paths realsense-ros ddynamic_reconfigure --ignore-src -r -y --skip-keys librealsense2 && \
     rm -rf /var/lib/apt/lists/* && \
     catkin build
 
@@ -159,11 +159,11 @@ RUN rm -rf libfranka
 WORKDIR /catkin_ws/src
 
 RUN git clone https://github.com/hsp-panda/franka_ros.git && \
-    cd franka_ros && git checkout panda_graspa && \
-    git clone https://github.com/hsp-panda/panda_moveit_config.git && \
+    cd franka_ros && git checkout panda_graspa
+RUN git clone https://github.com/hsp-panda/panda_moveit_config.git && \
     cd panda_moveit_config && git checkout panda_graspa
 RUN apt-get update && \
-    rosdep install --from-paths . --ignore-src -r -y --skip-keys libfranka && \
+    rosdep install --from-paths franka_ros panda_moveit_config --ignore-src -r -y --skip-keys libfranka && \
     rm -rf /var/lib/apt/lists/*
 RUN catkin build
 
@@ -176,7 +176,7 @@ RUN git clone https://github.com/hsp-panda/panda_ros_common.git && \
     git clone https://github.com/hsp-panda/panda_grasp_server.git && \
     cd panda_grasp_server && git checkout panda_graspa
 RUN apt-get update && \
-    rosdep install --from-paths . --ignore-src -r -y && \
+    rosdep install --from-paths panda_ros_common panda_grasp_server --ignore-src -r -y && \
     rm -rf /var/lib/apt/lists/*
 RUN catkin build
 
@@ -191,7 +191,11 @@ RUN git clone https://github.com/opencv/opencv.git && \
 RUN git clone https://github.com/opencv/opencv_contrib.git && \
     cd opencv_contrib && git checkout ${OPENCV_TAG}
 RUN mkdir -p opencv/build && cd opencv/build && \
-    cmake -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules .. && \
+    cmake -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules .. \
+    -DBUILD_TESTS=OFF \
+    -DBUILD_PERF_TESTS=OFF \
+    -DBUILD_EXAMPLES=OFF \
+    -DBUILD_LIST=core,highgui,aruco && \
     make -j8 install
 
 # ======================================
@@ -202,7 +206,7 @@ WORKDIR /catkin_ws/src
 RUN git clone https://github.com/hsp-panda/aruco_board_detect.git && \
     cd aruco_board_detect && git checkout panda_graspa
 RUN apt-get update && \
-    rosdep install --from-paths . --ignore-src -r -y && \
+    rosdep install --from-paths aruco_board_detect --ignore-src -r -y && \
     rm -rf /var/lib/apt/lists/* && \
     catkin build
 
@@ -214,7 +218,7 @@ WORKDIR /catkin_ws/src
 RUN git clone https://github.com/fbottarel/utility-ros-nodes.git /utility-ros-nodes && \
     ln -s /utility-ros-nodes/src/tabletop_segment tabletop_segment
 RUN apt-get update && \
-    rosdep install --from-paths . --ignore-src -r -y && \
+    rosdep install --from-paths tabletop_segment --ignore-src -r -y && \
     rm -rf /var/lib/apt/lists/* && \
     catkin build
 
