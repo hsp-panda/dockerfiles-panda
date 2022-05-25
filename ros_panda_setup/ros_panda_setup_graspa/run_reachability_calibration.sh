@@ -32,6 +32,7 @@ xhost +local:root
 # -it: Interactive TTY.
 # --gpus all: Expose all GPUs to the container.
 docker run \
+  -it \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v /dev:/dev \
   -v $SHARED_DIR_PATH:$MOUNT_POINT \
