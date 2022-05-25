@@ -52,7 +52,11 @@ $ docker pull ghcr.io/hsp-panda/ros_panda_setup_graspa:latest
 
 ## How to run
 
-The `run.sh` file provides a script to start the ROS pipeline in a Docker container (with GUI support through X). Make sure to adapt the arguments in the file to your own setup:
+The shell scripts provided in this directory can be used to start the GRASPA ROS pipeline in a Docker container (with GUI support through X). Make sure to adapt the arguments in the files to your own setup.
+
+### run.sh
+
+This brings up everything needed for benchmarking grasp planners with GRASPA. Runfile arguments are
 
 - `ROBOT_IP` - quite self-explanatory
 - `GRASP_SERVER_CONFIG` - one of [these](https://github.com/hsp-panda/panda_grasp_server/tree/panda_graspa/config) files
@@ -69,5 +73,14 @@ and open shells in it with
 ```shell
 $ docker exec -it <container name> bash
 ```
+
+### run_reachability_calibration.sh
+
+This brings up everything needed for performing the calibration and reachability protocol for GRASPA and starts the procedure. Runfile arguments are
+
+- `ROBOT_IP` - quite self-explanatory
+- `GRASP_SERVER_CONFIG` - one of [these](https://github.com/hsp-panda/panda_grasp_server/tree/panda_graspa/config) files
+- `TABLE_HEIGHT` - Z height of the table surface in the robot root reference frame. If provided, this will override what is already specified in the `GRASP_SERVER_CONFIG` file.
+- `HAND_CAMERA_SERIAL` and `SETUP_CAMERA_SERIAL` - serial IDs of realsense cameras (one for the setup, one for the robot hand). Check `realsense-viewer` in order to obtain the IDs.
 
 Refer to the [`panda_grasp_server`](https://github.com/hsp-panda/panda_grasp_server/tree/panda_graspa/README.md), [`tabletop_segment`](https://github.com/fbottarel/utility-ros-nodes/src/tabletop_segment/README.md) and [`aruco_board_detect`](https://github.com/hsp-panda/aruco_board_detect/blob/main/README.md) readmes for further instructions on usage.
