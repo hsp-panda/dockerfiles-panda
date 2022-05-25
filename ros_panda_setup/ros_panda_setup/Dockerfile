@@ -129,7 +129,7 @@ RUN git clone https://github.com/IntelRealSense/realsense-ros.git && \
 RUN cd realsense-ros && git checkout ${REALSENSEROS_TAG}
 RUN apt-get update && \
     apt-get install ros-melodic-rgbd-launch && \
-    rosdep install --from-paths . --ignore-src -r -y --skip-keys librealsense2 && \
+    rosdep install --from-paths realsense-ros ddynamic_reconfigure --ignore-src -r -y --skip-keys librealsense2 && \
     rm -rf /var/lib/apt/lists/* && \
     catkin build
 
@@ -148,7 +148,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN git clone --recursive https://github.com/frankaemika/libfranka && \
-    cd libfranka && \ 
+    cd libfranka && \
     git checkout ${LIBFRANKA_TAG} && git submodule update && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release .. && \
@@ -159,12 +159,11 @@ RUN rm -rf libfranka
 WORKDIR /catkin_ws/src
 
 RUN git clone https://github.com/hsp-panda/franka_ros.git && \
-    git clone https://github.com/hsp-panda/panda_moveit_config.git
+RUN git clone https://github.com/hsp-panda/panda_moveit_config.git && \
 RUN apt-get update && \
-    rosdep install --from-paths . --ignore-src -r -y --skip-keys libfranka && \
+    rosdep install --from-paths franka_ros panda_moveit_config --ignore-src -r -y --skip-keys libfranka && \
     rm -rf /var/lib/apt/lists/*
 RUN catkin build
-
 
 # ======================================
 # Clone and build panda_grasp_server
@@ -173,9 +172,8 @@ RUN catkin build
 WORKDIR /catkin_ws/src
 RUN git clone https://github.com/hsp-panda/panda_ros_common.git && \
     git clone https://github.com/hsp-panda/panda_grasp_server.git && \
-    cd panda_grasp_server && git checkout panda_graspa
 RUN apt-get update && \
-    rosdep install --from-paths . --ignore-src -r -y && \
+    rosdep install --from-paths panda_ros_common panda_grasp_server --ignore-src -r -y && \
     rm -rf /var/lib/apt/lists/*
 RUN catkin build
 
