@@ -158,8 +158,8 @@ RUN rm -rf libfranka
 
 WORKDIR /catkin_ws/src
 
-RUN git clone https://github.com/hsp-panda/franka_ros.git && \
-RUN git clone https://github.com/hsp-panda/panda_moveit_config.git && \
+RUN git clone https://github.com/hsp-panda/franka_ros.git
+RUN git clone https://github.com/hsp-panda/panda_moveit_config.git
 RUN apt-get update && \
     rosdep install --from-paths franka_ros panda_moveit_config --ignore-src -r -y --skip-keys libfranka && \
     rm -rf /var/lib/apt/lists/*
@@ -171,7 +171,7 @@ RUN catkin build
 
 WORKDIR /catkin_ws/src
 RUN git clone https://github.com/hsp-panda/panda_ros_common.git && \
-    git clone https://github.com/hsp-panda/panda_grasp_server.git && \
+    git clone https://github.com/hsp-panda/panda_grasp_server.git
 RUN apt-get update && \
     rosdep install --from-paths panda_ros_common panda_grasp_server --ignore-src -r -y && \
     rm -rf /var/lib/apt/lists/*
