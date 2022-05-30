@@ -8,11 +8,6 @@ on:
         default: "7"
         required: false
 
-
-env:
-  OWNER: fbottarel
-  REPO: hsp-panda/dockerfiles-panda
-
 jobs:
   clean-logs:
     runs-on: ubuntu-latest
@@ -20,6 +15,6 @@ jobs:
       - uses: igorjs/gh-actions-clean-workflow@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          owner: ${{ env.OWNER }}
-          repo: ${{ env.REPO }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
           days_old: ${{ github.event.inputs.days_old }}
