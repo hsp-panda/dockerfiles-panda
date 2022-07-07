@@ -37,6 +37,7 @@ docker run \
   -e QT_X11_NO_MITSHM=1 \
   --network=host \
   --privileged \
+  --name robot_control_container \
   ghcr.io/hsp-panda/ros_panda_setup_graspa:latest \
   /bin/bash -i -c 'roslaunch panda_grasp_server GRASPA_pipeline.launch \
                                 robot_ip:='"${ROBOT_IP}"' \
