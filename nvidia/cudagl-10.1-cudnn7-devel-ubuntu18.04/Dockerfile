@@ -7,8 +7,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Fix GPG issues with the cudagl images
 RUN apt-key del 7fa2af80 && \
-    rm /etc/apt/sources.list.d/cuda.list && \
-    rm /etc/apt/sources.list.d/nvidia-ml.list
+    rm /etc/apt/sources.list.d/cuda.list
+    # rm /etc/apt/sources.list.d/nvidia-ml.list
 
 RUN apt-get update && \
     apt-get install -y wget && \
