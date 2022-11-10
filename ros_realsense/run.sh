@@ -23,8 +23,7 @@ then
              --net=host \
              --privileged \
              --volume=/dev:/dev \
-             -it \
-             ros/realsense:melodic \
+             -it ghcr.io/hsp-panda/ros_realsense:latest \
              /bin/bash \
              -i -c 'roslaunch realsense2_camera rs_rgbd.launch\
                    enable_pointcloud:=true align_depth:=false\
