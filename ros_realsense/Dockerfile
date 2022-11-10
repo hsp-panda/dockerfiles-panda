@@ -6,7 +6,7 @@ LABEL maintainer="fabrizio.bottarel@iit.it"
 
 ENV ROS_DISTRO melodic
 ENV LIBREALSENSE_TAG v2.50.0
-ENV REALSENSEROS_TAG development
+ENV REALSENSEROS_TAG ros1-legacy
 
 # Set up wget
 
